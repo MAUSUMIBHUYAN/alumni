@@ -6,11 +6,23 @@ const userRoutes = require('./routes/user');
 
 const app = express();
 
-// ✅ Allow frontend on localhost:5173 (Vite)
+
+const allowedOrigins = [
+  "http://localhost:5173",                  // ✅ for local dev
+  process.env.CLIENT_URL                    // ✅ for production (Vercel)
+];
+
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true
 }));
+
 
 // Middlewares
 app.use(express.json());

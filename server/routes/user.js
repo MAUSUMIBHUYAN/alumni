@@ -18,11 +18,11 @@ router.get('/profile', (req, res) => {
 
 // Update details (including degree and passoutYear)
 router.put('/update', (req, res) => {
-  const { jobTitle, company, location, degree, passoutYear } = req.body;
+  const { jobTitle, company, location } = req.body;
 
   db.query(
-    'UPDATE users SET jobTitle = ?, company = ?, location = ?, degree = ?, passoutYear = ? WHERE id = ?',
-    [jobTitle, company, location, degree, passoutYear, req.session.userId],
+    'UPDATE users SET jobTitle = ?, company = ?, location = ? WHERE id = ?',
+    [jobTitle, company, location, req.session.userId],
     (err) => {
       if (err) return res.status(500).send(err);
       
